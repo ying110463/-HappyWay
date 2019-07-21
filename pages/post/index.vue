@@ -14,6 +14,7 @@
   <div>
         <button @click="handelClick">塞班贵？一定是你的打开方式不对！6000块玩转塞班</button>
   </div>
+  </div>
 </template>
 
 <script>
