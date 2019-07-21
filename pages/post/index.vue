@@ -1,69 +1,39 @@
 <template>
-  <div style="padding:50px;">
-     <h1 style="margin-bottom:50px;">组件递归</h1>
-
-    <NavsItem :data="navs"/>
-
+  <div class="travel-strategy">
+    <div class="travel-strategy-left">
+      <Recommend />
+    </div>
+    <div class="travel-strategy-right"></div>
   </div>
 </template>
 
 <script>
-
-import NavsItem from "@/components/post/navsItem";
-
+import Recommend from "@/components/post/recommend";
 export default {
-    components: {
-        NavsItem,
-    },
-    data(){
-        return {
-            navs: [
-                {
-                    title: "衣服",
-                    children: [
-                        { 
-                            title: "男装",
-                            children: [
-                                { 
-                                    title: "T恤",
-                                    children: [ 
-                                        {title: "短袖"}, 
-                                        { title: "长袖" }
-                                     ]
-                                }
-                            ]
-                        },
-                        { 
-                            title: "女装",
-                            children: [
-                                {
-                                    title: "裙子",
-                                    children: [
-                                        { title: "连衣裙" },
-                                        { title: "短裙" }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    title: "电器",
-                    children: [
-                        { title: "电视", children: [
-                            { title: "液晶电视" },
-                            { title: "普通电视"}
-                        ] },
-                        { title: "冰箱" },
-                        { title: "空调" },
-                    ]
-                }
-            ]
-        }
-    }
-}
+  data() {
+    return {};
+  },
+  //   引入子组件
+  components: {
+    Recommend
+  }
+};
 </script>
 
-<style>
-
+<style scoped lang='less'>
+.travel-strategy {
+  display: flex;
+  width: 1000px;
+  min-width: 1000px;
+  margin: 20px auto;
+  .travel-strategy-left {
+    width: 260px;
+    margin-right: 40px;
+  }
+  .travel-strategy-right {
+    width: 700px;
+    height: 400px;
+    background-color: blue;
+  }
+}
 </style>
