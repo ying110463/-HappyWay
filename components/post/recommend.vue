@@ -3,28 +3,28 @@
     <div class="city-recommend-top">
       <ul class="city-recommend-top-father">
         <li
-          v-for="(v,i) in cityList"
+          v-for="(v,i) in cityList.data"
           :key="i"
           @mouseenter="immigrations(i)"
           @mouseleave="shiftOut"
           :class="{frame:curr}"
         >
-          <span>{{v}}</span>
+          <span>{{v.type}}</span>
           <span>></span>
         </li>
       </ul>
       <ul
         class="city-recommend-top-children"
-        v-for="(value,index) in citytitle"
+        v-for="(value,index) in cityList.data"
         :key="index"
         v-show="index===num"
       >
-        <li v-for="(v,i) in value" :key="i">
+        <li v-for="(v,i) in value.children" :key="i">
           <span>
-            <i>{{i}}</i>
-            {{v.name}}
+            <i>{{i+1}}</i>
+            {{v.city}}
           </span>
-          <span>{{v.list}}</span>
+          <span>{{v.desc}}</span>
         </li>
       </ul>
     </div>
@@ -45,90 +45,20 @@
 export default {
   data() {
     return {
-      cityList: ["热门城市", "推荐城市", "奔向海岛", "主题推荐"],
-      citytitle: [
-        [
-          {
-            name: "a北京1",
-            list: "世界著名古都和现代化国际城市"
-          },
-          {
-            name: "a北京2",
-            list: "世界著名古都和现代化国际城市"
-          },
-          {
-            name: "a北京3",
-            list: "世界著名古都和现代化国际城市"
-          },
-          {
-            name: "a北京4",
-            list: "世界著名古都和现代化国际城市"
-          }
-        ],
-        [
-          {
-            name: "b北京1",
-            list: "世界著名古都和现代化国际城市"
-          },
-          {
-            name: "b北京2",
-            list: "世界著名古都和现代化国际城市"
-          },
-          {
-            name: "b北京3",
-            list: "世界著名古都和现代化国际城市"
-          },
-          {
-            name: "b北京4",
-            list: "世界著名古都和现代化国际城市"
-          }
-        ],
-        [
-          {
-            name: "c北京1",
-            list: "世界著名古都和现代化国际城市"
-          },
-          {
-            name: "c北京2",
-            list: "世界著名古都和现代化国际城市"
-          },
-          {
-            name: "c北京3",
-            list: "世界著名古都和现代化国际城市"
-          },
-          {
-            name: "c北京4",
-            list: "世界著名古都和现代化国际城市"
-          }
-        ],
-        [
-          {
-            name: "d北京1",
-            list: "世界著名古都和现代化国际城市"
-          },
-          {
-            name: "d北京2",
-            list: "世界著名古都和现代化国际城市"
-          },
-          {
-            name: "d北京3",
-            list: "世界著名古都和现代化国际城市"
-          },
-          {
-            name: "d北京4",
-            list: "世界著名古都和现代化国际城市"
-          }
-        ]
-      ],
       num: null,
       curr: false
     };
+  },
+  props: {
+    cityList: {
+      type: Object,
+      default: {}
+    }
   },
   methods: {
     // 鼠标移出显示
     immigrations(i) {
       this.num = i;
-      console.log(123);
     },
     // 鼠标移出隐藏
     shiftOut() {
@@ -175,7 +105,6 @@ export default {
       left: 260px;
       z-index: 200;
       background-color: #fff;
-      font-size: 16px;
       border: 1px solid #ddd;
       border-left: none;
       width: 360px;
@@ -184,6 +113,7 @@ export default {
       border-right: 1px solid #ddd;
       li {
         padding: 10px 20px;
+        font-size: 14px;
         span:first-child {
           font-size: 16px;
           color: orange;

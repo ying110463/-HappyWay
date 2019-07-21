@@ -1,7 +1,7 @@
 <template>
   <div class="travel-strategy">
     <div class="travel-strategy-left">
-      <Recommend />
+      <Recommend :cityList="cityData"></Recommend>
     </div>
     <div class="travel-strategy-right">
       <Search />
@@ -16,13 +16,28 @@ import Search from "@/components/post/search";
 import Content from "@/components/post/content";
 export default {
   data() {
-    return {};
+    return {
+      cityData: {}
+    };
   },
   //   引入子组件
   components: {
     Recommend,
     Search,
     Content
+  },
+  mounted() {
+    console.log(123);
+    const {
+      user: { userInfo }
+    } = this.$store.state;
+    // 请求城市菜单列表
+    this.$axios({
+      url: "/posts/cities"
+    }).then(res => {
+      console.log(res);
+      this.cityData = res.data;
+    });
   }
 };
 </script>
