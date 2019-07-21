@@ -33,7 +33,7 @@
       <ul>
         <li>
           <nuxt-link to="#">
-            <img src alt />
+            <img src="http://157.122.54.189:9093/images/pic_sea.jpeg" alt />
           </nuxt-link>
         </li>
       </ul>
@@ -140,10 +140,8 @@ export default {
 
 <style scoped lang='less'>
 .city-recommend {
-  height: 300px;
   .city-recommend-top {
     position: relative;
-
     .city-recommend-top-father {
       border-right: 1px solid #ddd;
       &:hover {
@@ -175,6 +173,7 @@ export default {
       position: absolute;
       top: 0;
       left: 260px;
+      z-index: 200;
       background-color: #fff;
       font-size: 16px;
       border: 1px solid #ddd;
@@ -209,6 +208,10 @@ export default {
     height: 170px;
     margin-top: 10px;
     background-color: rgba(69, 66, 228, 0.2);
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 </style>

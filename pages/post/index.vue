@@ -3,19 +3,26 @@
     <div class="travel-strategy-left">
       <Recommend />
     </div>
-    <div class="travel-strategy-right"></div>
+    <div class="travel-strategy-right">
+      <Search />
+      <Content />
+    </div>
   </div>
 </template>
 
 <script>
 import Recommend from "@/components/post/recommend";
+import Search from "@/components/post/search";
+import Content from "@/components/post/content";
 export default {
   data() {
     return {};
   },
   //   引入子组件
   components: {
-    Recommend
+    Recommend,
+    Search,
+    Content
   }
 };
 </script>
@@ -32,8 +39,6 @@ export default {
   }
   .travel-strategy-right {
     width: 700px;
-    height: 400px;
-    background-color: blue;
   }
 }
 </style>
