@@ -1,8 +1,6 @@
 <template>
-<<<<<<< HEAD
   <div style="padding:50px;">
      <h1 >ada</h1>
-=======
   <div class="travel-strategy">
     <div class="travel-strategy-left">
       <Recommend :cityList="cityData"></Recommend>
@@ -11,25 +9,22 @@
       <Search />
       <Content />
     </div>
->>>>>>> b663eedd771127122ff0ff4bae7bd7da43ab614e
+    b663eedd771127122ff0ff4bae7bd7da43ab614e
+  </div>
+  <div>
+        <button @click="handelClick">塞班贵？一定是你的打开方式不对！6000块玩转塞班</button>
   </div>
 </template>
 
 <script>
-<<<<<<< HEAD
-export default {
-  
-    data(){
-    }
-}
-=======
 import Recommend from "@/components/post/recommend";
 import Search from "@/components/post/search";
 import Content from "@/components/post/content";
 export default {
   data() {
     return {
-      cityData: {}
+      cityData: {},
+      data:[]
     };
   },
   //   引入子组件
@@ -50,9 +45,24 @@ export default {
       console.log(res);
       this.cityData = res.data;
     });
-  }
+  },
+  methods: {
+        handelClick(){
+            this.$axios({
+                url:'/posts?id=4'
+            }).then(res=>{
+            //    console.log(res.data.data);
+               const {data}=res.data
+               this.data=data;
+               console.log(this.data);
+            this.$store.commit('post/setDetailData',data)
+            this.$router.push('post/detail')
+               
+            })
+        } 
+     }
+}
 };
->>>>>>> b663eedd771127122ff0ff4bae7bd7da43ab614e
 </script>
 
 <style scoped lang='less'>
