@@ -1,12 +1,11 @@
 <template>
   <div class="city-recommend">
-    <div class="city-recommend-top">
+    <div class="city-recommend-top" @mouseleave="shiftOut">
       <ul class="city-recommend-top-father">
         <li
           v-for="(v,i) in cityList.data"
           :key="i"
           @mouseenter="immigrations(i)"
-          @mouseleave="shiftOut"
           :class="{frame:curr}"
         >
           <span>{{v.type}}</span>
@@ -19,7 +18,7 @@
         :key="index"
         v-show="index===num"
       >
-        <li v-for="(v,i) in value.children" :key="i">
+        <li v-for="(v,i) in value.children" :key="i" @click="getArticle(v.city)">
           <span>
             <i>{{i+1}}</i>
             {{v.city}}
@@ -32,7 +31,7 @@
       <div class="city-recommend-bottom-title">推荐城市</div>
       <ul>
         <li>
-          <nuxt-link to="#">
+          <nuxt-link to="/post/detail?id=4">
             <img src="http://157.122.54.189:9093/images/pic_sea.jpeg" alt />
           </nuxt-link>
         </li>
@@ -46,9 +45,12 @@ export default {
   data() {
     return {
       num: null,
-      curr: false
+      curr: false,
+      // 文章数据
+      articleData: []
     };
   },
+  // 通过props获取到父组件传递过来的参数
   props: {
     cityList: {
       type: Object,
@@ -63,8 +65,13 @@ export default {
     // 鼠标移出隐藏
     shiftOut() {
       this.num = null;
+    },
+    // 点击请求渲染文章列表
+    getArticle(city) {
+      this.$store.dispatch("post/getArticle", city);
     }
-  }
+  },
+  mounted() {}
 };
 </script>
 
@@ -112,6 +119,7 @@ export default {
       border-left: 1px solid #ddd;
       border-right: 1px solid #ddd;
       li {
+        cursor: pointer;
         padding: 10px 20px;
         font-size: 14px;
         span:first-child {

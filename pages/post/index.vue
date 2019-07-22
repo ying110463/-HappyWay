@@ -27,15 +27,11 @@ export default {
     Content
   },
   mounted() {
-    console.log(123);
-    const {
-      user: { userInfo }
-    } = this.$store.state;
     // 请求城市菜单列表
     this.$axios({
       url: "/posts/cities"
     }).then(res => {
-      console.log(res);
+      // console.log(res);
       this.cityData = res.data;
     });
   }
