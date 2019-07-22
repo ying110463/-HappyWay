@@ -12,11 +12,11 @@
       <div class="name-info">
         <span>
           {{item.name}}
-          <i class="iconfont iconhuangguan"></i>
-          <i class="iconfont iconhuangguan"></i>
-          <i class="iconfont iconhuangguan"></i>
-          <i class="iconfont iconhuangguan"></i>
-          <i class="iconfont iconhuangguan"></i>
+          <i
+            v-for="(v,j) in item.hotellevel.level"
+            :key="j"
+            class="iconfont iconhuangguan"
+          ></i>
         </span>
         <span>{{item.alias}}</span>
         <span>
@@ -24,16 +24,33 @@
           {{item.address}}
         </span>
       </div>
-      <div class="main-pic" v-for="(v, i) in item.pics" :key="i">
+      <div class="main-pic">
         <!-- 获取图片路径 -->
-        <img :src=" $axios.defaults.baseURL + v.url" alt />
+        <el-row>
+          <el-col :span="14">
+            <div style="height:360px">
+              <img
+                style="height:360px"
+                :src=" `http://157.122.54.189:9093/images/hotel-pics/1.jpeg`"
+                alt
+              />
+            </div>
+          </el-col>
+          <el-col :span="10">
+            <div class="main-rit">
+              <div>
+                <img :src="`http://157.122.54.189:9093/images/hotel-pics/1.jpeg`" alt />
+                <img :src="`http://157.122.54.189:9093/images/hotel-pics/2.jpeg`" alt />
+                <img :src="`http://157.122.54.189:9093/images/hotel-pics/3.jpeg`" alt />
+                <img :src="`http://157.122.54.189:9093/images/hotel-pics/4.jpeg`" alt />
+                <img :src="`http://157.122.54.189:9093/images/hotel-pics/5.jpeg`" alt />
+                <img :src="`http://157.122.54.189:9093/images/hotel-pics/6.jpeg`" alt />
+              </div>
+            </div>
+          </el-col>
+        </el-row>
       </div>
       <div class="hidden-columns">
-        <!-- <el-table :data="tableData" style="width: 100%" >
-          <el-table-column prop="name" :cell-click="handpang" label="价格来源" width="180"></el-table-column>
-          <el-table-column prop="bestType" label="低价户型" width="180"></el-table-column>
-          <el-table-column prop="price" label="最底价格/每晚"></el-table-column>
-        </el-table>-->
         <ul>
           <li>价格来源</li>
           <li>低价户型</li>
@@ -48,6 +65,7 @@
           </li>
         </ul>
       </div>
+      <!-- 地图 -->
       <el-row class="info-row">
         <el-col :span="12" id="container"></el-col>
         <el-col :span="10">
@@ -57,32 +75,74 @@
           </el-tabs>
         </el-col>
       </el-row>
-      <div class="info-row">
-        <ul>
-          <li>价格来源</li>
-          <li>低价户型</li>
-          <li>最底价格/每晚</li>
-        </ul>
-        <ul v-for="(v,i) in tableData" :key="i" @click="handpang">
-          <li>{{v.name}}</li>
-          <li>{{v.bestType}}</li>
-          <li style="color:red">
-            ￥{{v.price}}
-            <i style="color:black">起</i> >
-          </li>
-        </ul>
+
+      <el-row>
+        <el-col :span="4">
+          <div class="grid-content bg-purple">基本信息</div>
+        </el-col>
+        <el-col :span="5">
+          <div class="grid-content bg-purple-light">入住时间: 14:00之后</div>
+        </el-col>
+        <el-col :span="5">
+          <div class="grid-content bg-purple-light">离店时间: 12:00之前</div>
+        </el-col>
+        <el-col :span="5">
+          <div class="grid-content bg-purple-light">{{item.creation_time}} / {{item.renovat_time}}</div>
+        </el-col>
+        <el-col :span="5">
+          <div class="grid-content bg-purple-light">{{item.roomCount}}间客房</div>
+        </el-col>
+      </el-row>
+
+      <el-row :span="20" v-for="(v,i) in item.hotelassets" :key="i">
+        <el-col :span="4"></el-col>
+        <el-col>
+          <div class="grid-content bg-purple-light">
+            {{v.type}}
+            <i>{{v.name}}</i>
+          </div>
+        </el-col>
+      </el-row>
+      <div>
+        <span>10条真实用户评论</span>
+
+        <el-row>
+          <el-col :span="5">
+            <el-row>
+              <el-col :span="24">
+                <div>总评数：9</div>
+                <div>好评数：1</div>
+                <div>差评数：2</div>
+              </el-col>
+            </el-row>
+          </el-col>
+          <el-col :span="6">
+            <div>
+              <el-progress type="circle" :percentage="60" :width="70"></el-progress>
+            </div>
+          </el-col>
+          <div :span="13">
+            <div></div>
+          </div>
+        </el-row>
       </div>
+      <Critic :data="navs" />
     </div>
   </div>
 </template>
 <script>
+import Critic from "@/components/hotel/critic ";
 export default {
   data() {
     return {
       data: [],
       tableData: [],
-      activeName: "first"
+      activeName: "first",
+      navs: []
     };
+  },
+  components: {
+    Critic
   },
   methods: {
     handleClick(tab, event) {
@@ -125,10 +185,14 @@ export default {
       const { data } = res.data;
       this.data = data;
       this.tableData = res.data.data[0].products;
-      console.log(res.data.data[0].products);
     });
     this.$axios("/hotels/options").then(res => {
       console.log(res, 666);
+    });
+    this.$axios("/hotels/comments").then(res => {
+      console.log(res.data, 777);
+      const { data } = res.data;
+      this.navs = data;
     });
   }
 };
@@ -152,7 +216,7 @@ export default {
       font-weight: 400;
       font-size: x-large;
       i {
-        color: #666;
+        color: gold;
         font-size: 14px;
       }
     }
@@ -165,9 +229,24 @@ export default {
       font-size: 14px;
     }
   }
-  img {
-    height: 100px;
+
+  .main-rit {
+    div {
+      display: flex;
+      flex-wrap: wrap;
+      img {
+        width: 38%;
+        margin-bottom: 15px;
+        margin-left: auto;
+      }
+    }
   }
+  img {
+    width: 100%;
+  }
+}
+.main-pic {
+  margin: 5px 0 25px;
 }
 span {
   display: block;
@@ -178,6 +257,17 @@ span {
 .info-right {
   overflow: auto;
   height: 300px;
+}
+.grid-content {
+  margin: 10px 0;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  > i {
+    margin-left: 150px;
+    background-color: #ddd;
+    border-radius: 10%;
+    border: 1px solid #ddd;
+  }
 }
 
 #container {
