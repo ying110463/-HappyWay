@@ -25,7 +25,11 @@ export default {
   */
   css: [
     'element-ui/lib/theme-chalk/index.css',
-    'assets/main.css' // 新增自定义的页面过渡样式（文件来自3.4.1）
+    'assets/main.css', // 新增自定义的页面过渡样式（文件来自3.4.1）
+    // 富文本
+      'quill/dist/quill.snow.css',
+      'quill/dist/quill.bubble.css',
+      'quill/dist/quill.core.css',
   ],
   /*
   ** Plugins to load before mounting the App
@@ -33,7 +37,16 @@ export default {
   plugins: [
     '@/plugins/element-ui',
     "@/plugins/axios",
-    { src: '~/plugins/localStorage.js', ssr: false }
+    { src: '~/plugins/localStorage.js', ssr: false },
+    // 富文本
+      //  {
+      //    src: '~plugins/nuxt-quill-plugin.js',
+      //    ssr: false
+      //  }
+        {
+          src: '@/plugins/vue-quill-editor',
+          ssr: false
+        },
   ],
   /*
   ** Nuxt.js modules
@@ -47,8 +60,8 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    // baseURL: "http://157.122.54.189:9095"
-    baseURL: "http://127.0.0.1:1337" // 新增axios默认请求路径 
+    baseURL: "http://157.122.54.189:9095"
+    // baseURL: "http://127.0.0.1:1337" // 新增axios默认请求路径 
   },
   /*
   ** Build configuration

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 export const state = () => ({
     // 文章初始数据
     articleList: []
@@ -24,5 +25,17 @@ export const actions = {
             // 调用自身的修改 state 仓库数据的方法
             store.commit('alterArticle', res.data.data)
         });
+=======
+export const state = () => {
+    return {
+        // 攻略详情数据
+        detailData:{}
+    }
+}
+
+export const mutations = {
+    setDetailData(state,data){
+        state.detailData=data
+>>>>>>> 9729e549b6ebe3ca7486cc2e332d8a84c17c42a3
     }
 }
