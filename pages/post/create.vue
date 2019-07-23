@@ -5,22 +5,9 @@
         <p>发表新攻略</p>
         <span>分享你的个人游记，让更多人看到哦！</span>
       </div>
-      <div class="draft">
-        <div class="cao">草稿箱({{list.length}})</div>
-        <div v-for="(value,index) in list" :key="index">
-          <span class="yiru" @click="cha(value.city,value.title,value.content)">
-            {{value.title}}
-            <i class="el-icon-edit"></i>
-          </span>
-          <span @click="deletes(index)">
-            <i class="el-icon-delete"></i>
-
-          </span>
-          <p>{{value.data|sjian}}</p>
-        </div>
-      </div>
     </el-row>
-    <el-input placeholder="请输入标题" style="width:700px;" class="btn" v-model="form.title"></el-input>
+
+    <el-input placeholder="请输入标题" style="width:800px;" class="btn" v-model="form.title"></el-input>
     <div>
       <!-- 富文本所在地 -->
       <section class="container">
@@ -53,6 +40,20 @@
       <el-button type="primary" @click="release">发布</el-button>或者
       <span @click="baocun" class="release">保存到草稿箱</span>
     </div>
+              <div class="draft">
+        <div class="cao">草稿箱({{list.length}})</div>
+        <div v-for="(value,index) in list" :key="index">
+          <span class="yiru" @click="cha(value.city,value.title,value.content)">
+            {{value.title}}
+            <i class="el-icon-edit"></i>
+          </span>
+          <span @click="deletes(index)">
+            <i class="el-icon-delete"></i>
+
+          </span>
+          <p>{{value.data|sjian}}</p>
+        </div>
+      </div>
   </div>
 </template>
 
@@ -102,6 +103,10 @@ filters: {
     // 删除草稿
     deletes(index){
    this.list.splice(index,1)
+      this.form.title=""
+          this.form.city=""
+          this.content=""
+          this.id=""
     },
     // 查看草稿
     cha(city,title,content){
@@ -248,10 +253,15 @@ if(bl){
   font-weight: 400px;
 }
 .draft {
-  width: 200px;
-  height: 60px;
+  // width: 200px;
+  // height: 60px;
+  position:absolute;
+    right: 60px;
+  top:94px;
   border: 2px solid #ddd;
-  // padding:5px 5px;
+  float: right;
+  padding:15px 15px;
+  padding-right:60px;
   // text-align: center;
   // line-height: 60px;
 }
