@@ -27,7 +27,13 @@
               @focus="handnick(index)"
               :class="{active:datashow==index}"
             />
-            <el-button type="primary" size="mini" class="nick" v-if="datashow===index">回复</el-button>
+            <el-button
+              type="primary"
+              size="mini"
+              class="nick"
+              v-if="datashow===index"
+              @click="handbtn"
+            >回复</el-button>
           </div>
           <div style="marginLeft:40px">
             <aritic :data="item.followed" />
@@ -45,13 +51,13 @@ export default {
   name: "aritic",
   filters: {
     componentNtn(data) {
-     return moment(data).format("YYYY-MM-DD");
+      return moment(data).format("YYYY-MM-DD");
     }
   },
   data() {
     return {
       // input: "",
-      comments: {},
+      comments:{},
       datashow: null
     };
   },
@@ -63,9 +69,19 @@ export default {
       //   this.datashow = !this.datashow;
       // }
       this.datashow = index;
-      console.log(this.datashow);
+    },
+    handbtn() {
+      // this.$axios({
+      //   url: "/comments",
+      //   mehtod: "POST",
+      //   data: {
+      //     ContentType:this.$refs
+      //   },
+      //   headers: {
+      //     Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
+      //   }
+      // });
     }
-    //
   },
   mounted() {}
 };

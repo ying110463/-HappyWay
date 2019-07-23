@@ -2,6 +2,7 @@
   <div style="padding:50px;">
   
     <div id="container" style="width:500px; height:500px;"></div>
+    <button @click="hamgasd"> hko </button>
   </div>
 </template>
 
@@ -10,8 +11,15 @@
 export default {
   components: {
    
+  },methods:{
+    hamgasd(){
+     this.$router.push({
+       path:"/hotel/"+1
+     })
+    },
   },
   mounted() {
+    
     // 页面加加载之后执行
     window.onLoad = function() {
       // 生成地图.container是显示地图的div的id

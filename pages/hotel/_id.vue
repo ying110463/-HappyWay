@@ -69,9 +69,23 @@
       <el-row class="info-row">
         <el-col :span="12" id="container"></el-col>
         <el-col :span="10">
-          <el-tabs v-model="activeName" @tab-click="handleClick" class="info-right">
-            <el-tab-pane label="风景" name="first" style=" height: 400px;"></el-tab-pane>
-            <el-tab-pane label="交通" name="second">配置管理</el-tab-pane>
+          <el-tabs v-model="activeName" @tab-click="handleClick">
+            <el-tab-pane label="风景" name="first" style=" height: 400px;" class="info-right">
+              <div class="info-col">
+                <ul v-for="(v,i) in Nadata" :key="i">
+                  <li>{{v.name}}</li>
+                  <li>{{(v.biz_ext.rating)*2}}公里</li>
+                </ul>
+              </div>
+            </el-tab-pane>
+            <el-tab-pane label="交通" name="second">
+              <div class="info-col">
+                <ul v-for="(v,i) in Nadata" :key="i">
+                  <li>{{v.name}}</li>
+                  <li>{{(v.typecode)/400000}}公里</li>
+                </ul>
+              </div>
+            </el-tab-pane>
           </el-tabs>
         </el-col>
       </el-row>
@@ -116,16 +130,80 @@
               </el-col>
             </el-row>
           </el-col>
-          <el-col :span="6">
-            <div>
-              <el-progress type="circle" :percentage="60" :width="70"></el-progress>
+          <el-col :span="4">
+            <div class="childeren">
+              <el-progress
+                :show-text="false"
+                type="circle"
+                :percentage="(data[0].scores.service)*10"
+                status="warning"
+                :stroke-width="2"
+                :width="70"
+              ></el-progress>
             </div>
+            <i class="is0">
+              <span>{{(data[0].scores.service)*10}}分</span>
+              <em>推荐</em>
+            </i>
           </el-col>
-          <div :span="13">
-            <div></div>
-          </div>
+          <el-col :span="13">
+            <el-row>
+              <el-col :span="8">
+                <div>
+                  <el-progress
+                    type="circle"
+                    :show-text="false"
+                    :width="70"
+                    :stroke-width="2"
+                    :percentage="(data[0].scores.product)*5"
+                    status="warning"
+                  ></el-progress>
+                </div>
+                <i class="is1">
+                  环境
+                  <br />
+                 {{ (data[0].scores.product)*5}}分
+                </i>
+              </el-col>
+              <el-col :span="8">
+                <div>
+                  <el-progress
+                    type="circle"
+                    :show-text="false"
+                    :width="70"
+                    :stroke-width="2"
+                    status="warning"
+                    :percentage="(data[0].scores.environment)*5"
+                  ></el-progress>
+                </div>
+                <i class="is2">
+                  产品
+                  <br />
+                  {{(data[0].scores.environment)*5}}分
+                </i>
+              </el-col>
+              <el-col :span="8">
+                <div>
+                  <el-progress
+                    type="circle"
+                    :show-text="false"
+                    :width="70"
+                    :stroke-width="2"
+                    status="warning"
+                    :percentage="(data[0].scores.environment)*5"
+                  ></el-progress>
+                </div>
+                <i class="is3">
+                  服务
+                  <br />
+                  {{(data[0].scores.environment)*5}}分
+                </i>
+              </el-col>
+            </el-row>
+          </el-col>
         </el-row>
       </div>
+
       <Critic :data="navs" />
     </div>
   </div>
@@ -138,7 +216,8 @@ export default {
       data: [],
       tableData: [],
       activeName: "first",
-      navs: []
+      navs: [],
+      Nadata: []
     };
   },
   components: {
@@ -146,7 +225,24 @@ export default {
   },
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event);
+      // console.log(tab, 6666);
+      if (tab.label == "交通") {
+        this.$axios(
+          "https://restapi.amap.com/v3/place/text?keywords=&city=%E5%8D%97%E4%BA%AC&location=118.871811,31.328468&types=%E4%BA%A4%E9%80%9A%E8%AE%BE%E6%96%BD%E6%9C%8D%E5%8A%A1&output=json&page=1&offset=10&key=79041dfa1c752f49599e2b507c64da42"
+        ).then(res => {
+          console.log(res, 8888);
+          const { pois } = res.data;
+          this.Nadata = pois;
+        });
+      } else if (tab.label == "风景") {
+        this.$axios({
+          url:
+            "https://restapi.amap.com/v3/place/text?keywords=&city=%E5%8D%97%E4%BA%AC&location=118.871811,31.328468&types=%E9%A3%8E%E6%99%AF%E5%90%8D%E8%83%9C&output=json&page=1&offset=10&key=79041dfa1c752f49599e2b507c64da42"
+        }).then(res => {
+          const { pois } = res.data;
+          this.Nadata = pois;
+        });
+      }
     },
     handpang() {
       this.$router.push({
@@ -187,17 +283,52 @@ export default {
       this.tableData = res.data.data[0].products;
     });
     this.$axios("/hotels/options").then(res => {
-      console.log(res, 666);
+      // console.log(res, 666);
     });
     this.$axios("/hotels/comments").then(res => {
-      console.log(res.data, 777);
+      // console.log(res.data, 777);
       const { data } = res.data;
       this.navs = data;
+    });
+    this.$axios({
+      url:
+        "https://restapi.amap.com/v3/place/text?keywords=&city=%E5%8D%97%E4%BA%AC&location=118.871811,31.328468&types=%E9%A3%8E%E6%99%AF%E5%90%8D%E8%83%9C&output=json&page=1&offset=10&key=79041dfa1c752f49599e2b507c64da42"
+    }).then(res => {
+      const { pois } = res.data;
+      this.Nadata = pois;
     });
   }
 };
 </script>
 <style lang="less" scoped>
+.is0{
+  position: absolute;
+  left: 228px;
+  bottom: 20px;
+  font-size: 18px;
+  color: orange;
+}
+.is1 {
+  position: absolute;
+  left: 18px;
+  bottom: 26px;
+  font-size: 14px;
+  color: orange;
+}
+.is2 {
+  position: absolute;
+  left: 199px;
+  bottom: 26px;
+  font-size: 14px;
+  color: orange;
+}
+.is3 {
+  position: absolute;
+  right: 120px;
+  bottom: 26px;
+  font-size: 14px;
+  color: orange;
+}
 .container {
   margin: 0 auto;
 
@@ -252,12 +383,23 @@ span {
   display: block;
 }
 .info-row {
-  margin-top: 20px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  .info-col {
+    overflow: auto;
+    height: 300px;
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+
+      li {
+        flex: 50%;
+        margin: 10px 0;
+      }
+    }
+  }
 }
-.info-right {
-  overflow: auto;
-  height: 300px;
-}
+
 .grid-content {
   margin: 10px 0;
   padding-bottom: 20px;
