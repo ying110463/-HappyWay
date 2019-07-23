@@ -40,20 +40,19 @@
       <el-button type="primary" @click="release">发布</el-button>或者
       <span @click="baocun" class="release">保存到草稿箱</span>
     </div>
-              <div class="draft">
-        <div class="cao">草稿箱({{list.length}})</div>
-        <div v-for="(value,index) in list" :key="index">
-          <span class="yiru" @click="cha(value.city,value.title,value.content)">
-            {{value.title}}
-            <i class="el-icon-edit"></i>
-          </span>
-          <span @click="deletes(index)">
-            <i class="el-icon-delete"></i>
-
-          </span>
-          <p>{{value.data|sjian}}</p>
-        </div>
+    <div class="draft">
+      <div class="cao">草稿箱()</div>
+      <div v-for="(value,index) in list" :key="index">
+        <span class="yiru" @click="cha(value.city,value.title,value.content)">
+          {{value.title}}
+          <i class="el-icon-edit"></i>
+        </span>
+        <span @click="deletes(index)">
+          <i class="el-icon-delete"></i>
+        </span>
+        <p>{{value.data|sjian}}</p>
       </div>
+    </div>
   </div>
 </template>
 
@@ -63,8 +62,8 @@ export default {
     return {
       // 对象
       // users:{},
-      list: [],
- 
+      list:[],
+
       // 富文本
       content: "",
       editorOption: {
@@ -81,54 +80,54 @@ export default {
       form: {
         // 城市id
         city: "",
-        title: "",
+        title: ""
       },
       // 城市名称
       id: ""
     };
   },
 
-filters: {
-  sjian(zhi){
-    var data=new Date(zhi)
-    var  nian=data.getFullYear()
-   var  yue=data.getMonth()+1
-   var  ri=data.getDate()
-    return nian+"-"+yue+"-"+ri
-}
-},  
-
+  filters: {
+    sjian(zhi) {
+      var data = new Date(zhi);
+      var nian = data.getFullYear();
+      var yue = data.getMonth() + 1;
+      var ri = data.getDate();
+      return nian + "-" + yue + "-" + ri;
+    }
+  },
 
   methods: {
     // 删除草稿
-    deletes(index){
-   this.list.splice(index,1)
-      this.form.title=""
-          this.form.city=""
-          this.content=""
-          this.id=""
+    deletes(index) {
+      this.list.splice(index, 1);
+      this.form.title = "";
+      this.form.city = "";
+      this.content = "";
+      this.id = "";
     },
     // 查看草稿
-    cha(city,title,content){
-  this.form.title=title
-  this.id=city
-  this.content=content
-        
+    cha(city, title, content) {
+      this.form.title = title;
+      this.id = city;
+      this.content = content;
     },
     // 添加草稿
     baocun() {
-    this.list.push({title:this.form.title,data:new Date(),city:this.id,content:this.content})    
-    console.log(this.list);
-    
-   localStorage.setItem("shuj",JSON.stringify(this.list))
+      this.list.push({
+        title: this.form.title,
+        data: new Date(),
+        city: this.id,
+        content: this.content
+      });
+      console.log(this.list);
+
+      localStorage.setItem("shuj", JSON.stringify(this.list));
     },
     // 富文本
-    onEditorBlur(editor) {
-    },
-    onEditorFocus(editor) {
-    },
-    onEditorReady(editor) {
-    },
+    onEditorBlur(editor) {},
+    onEditorFocus(editor) {},
+    onEditorReady(editor) {},
     onEditorChange({ editor, html, text }) {
       this.content = html;
     },
@@ -173,61 +172,63 @@ filters: {
       this.form.city = value.id;
       this.id = value.name;
       console.log(this.id);
-      
+
       // this.form.city = value.name;
       // this.form.id = value.id;
     },
     release() {
-    // 校验
-    const rules={
-        title:{
-          value:this.form.title,
-          message:"请输入标题"
+      // 校验
+      const rules = {
+        title: {
+          value: this.form.title,
+          message: "请输入标题"
         },
-        city:{
-          value:this.form.city,
-          message:"请输入城市"
+        city: {
+          value: this.form.city,
+          message: "请输入城市"
         }
-    }
-// 循环对象
-var bl=true
-Object.keys(rules).forEach(v=>{
-if(!bl) return 
-  if(!rules[v].value){
-      bl=false
-      this.$message.warning(rules[v].message)
-  }
-})
-if(bl){
-      // 点击发布
-      this.$axios({
-        url: "/posts",
-        method: "POST",
-        data: {city:this.form.city,title:this.form.title,content:this.content},
-        headers: {
-          // 加入token
-          Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
-        }
-      }).then(res => {
-        if (res.status === 200) {
-          this.$message({
-            message: "新增成功",
-            type: "success"
-          });
-          this.form.title=""
-          this.form.city=""
-          this.content=""
-          this.id=""
+      };
+      // 循环对象
+      var bl = true;
+      Object.keys(rules).forEach(v => {
+        if (!bl) return;
+        if (!rules[v].value) {
+          bl = false;
+          this.$message.warning(rules[v].message);
         }
       });
-}
-
+      if (bl) {
+        // 点击发布
+        this.$axios({
+          url: "/posts",
+          method: "POST",
+          data: {
+            city: this.form.city,
+            title: this.form.title,
+            content: this.content
+          },
+          headers: {
+            // 加入token
+            Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
+          }
+        }).then(res => {
+          if (res.status === 200) {
+            this.$message({
+              message: "新增成功",
+              type: "success"
+            });
+            this.form.title = "";
+            this.form.city = "";
+            this.content = "";
+            this.id = "";
+          }
+        });
+      }
     }
   },
   mounted() {
-  this.list=JSON.parse(localStorage.getItem("shuj"))
+    this.list = JSON.parse(localStorage.getItem("shuj"));
 
-    
     // 富文本
     // console.log("app init, my quill insrance object is:", this.myQuillEditor);
     // setTimeout(() => {
@@ -255,13 +256,13 @@ if(bl){
 .draft {
   // width: 200px;
   // height: 60px;
-  position:absolute;
-    right: 60px;
-  top:94px;
+  position: absolute;
+  right: 60px;
+  top: 94px;
   border: 2px solid #ddd;
   float: right;
-  padding:15px 15px;
-  padding-right:60px;
+  padding: 15px 15px;
+  padding-right: 60px;
   // text-align: center;
   // line-height: 60px;
 }
@@ -287,10 +288,10 @@ if(bl){
   // text-decoration：underline;
   cursor: pointer;
 }
-.yiru:hover{
-  color:red;
+.yiru:hover {
+  color: red;
 }
-.cao{
-  padding-bottom:5px;
+.cao {
+  padding-bottom: 5px;
 }
 </style>
