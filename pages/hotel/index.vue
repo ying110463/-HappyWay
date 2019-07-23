@@ -3,6 +3,7 @@
   
     <div id="container" style="width:500px; height:500px;"></div>
     <button @click="hamgasd"> hko </button>
+    
   </div>
 </template>
 

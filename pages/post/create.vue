@@ -41,7 +41,8 @@
       <span @click="baocun" class="release">保存到草稿箱</span>
     </div>
               <div class="draft">
-        <div class="cao">草稿箱({{list.length}})</div>
+        <!-- <div class="cao">草稿箱({{list.length}})</div> -->
+        <div class="cao">草稿箱</div>
         <div v-for="(value,index) in list" :key="index">
           <span class="yiru" @click="cha(value.city,value.title,value.content)">
             {{value.title}}
@@ -118,9 +119,10 @@ filters: {
     // 添加草稿
     baocun() {
     this.list.push({title:this.form.title,data:new Date(),city:this.id,content:this.content})    
-    console.log(this.list);
     
    localStorage.setItem("shuj",JSON.stringify(this.list))
+    console.log(this.list);
+
     },
     // 富文本
     onEditorBlur(editor) {
