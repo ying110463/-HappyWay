@@ -2,69 +2,64 @@
   <div class="strategy-content">
     <div class="strategy-content-header">
       <p>推荐攻略</p>
-      <el-button type="primary" size="medium" icon="el-icon-edit">写游记</el-button>
+      <nuxt-link to="post/create">
+        <el-button type="primary" size="medium" icon="el-icon-edit">写游记</el-button>
+      </nuxt-link>
     </div>
     <div>
       <ul class="strategy-content-middle">
-        <li class="strategy-content-middle-border">
-          <p class="strategy-content-middle-title">塞班贵?一定是你的打开方式不对!6000块玩转塞班</p>
-          <p
-            class="strategy-content-middle-text"
-          >大家对塞班岛总存在着这样的误解，知道它是美属地盘，就理所当然地觉得这里的花费一定很高，花费高有高的玩法，那如果只有6000块的预算呢？要怎么玩？关于旅行这件事，我们要让钱花得更有道理，收下这份攻略，带你6000块花式玩转塞班。图：塞班岛。 by第5季旅游一、怎样用6000块玩转塞班？大多数出境游客人不做预算或最</p>
-          <ul class="strategy-content-middle-img">
-            <li>
-              <img
-                src="https://n3-q.mafengwo.net/s10/M00/E8/E4/wKgBZ1octoCABhgLAAafahORRLs91.jpeg?imageView2%2F2%2Fw%2F1360%2Fq%2F90"
-                alt
-              />
-            </li>
-            <li>
-              <img
-                src="http://b3-q.mafengwo.net/s13/M00/FF/47/wKgEaVzMTOCAHX9_AAnidFWU9K466.jpeg?imageMogr2%2Fthumbnail%2F1360x%2Fstrip%2Fquality%2F90"
-                alt
-              />
-            </li>
-            <li>
-              <img
-                src="https://p1-q.mafengwo.net/s10/M00/E9/33/wKgBZ1octwiAAKAoAAJ9ixcJc9M71.jpeg?imageView2%2F2%2Fw%2F1360%2Fq%2F90"
-                alt
-              />
-            </li>
-          </ul>
-          <div class="strategy-content-footer">
-            <p>
-              <i class="el-icon-location-outline" />
-              <i>北京市</i>
-              <img src="https://images.mafengwo.net/images/i/face/brands_v3/6@2x.png" alt />
-              <span>地球发动机</span>
-              <i class="el-icon-view" />3042
-            </p>
-            <span class="right">30赞</span>
-          </div>
-        </li>
-        <li class="strategy-content-middle-border" style="display:flex;">
-          <ul class="strategy-content-middle-img" style="flex:1;">
-            <li>
-              <img
-                src="http://b3-q.mafengwo.net/s13/M00/FF/47/wKgEaVzMTOCAHX9_AAnidFWU9K466.jpeg?imageMogr2%2Fthumbnail%2F1360x%2Fstrip%2Fquality%2F90"
-                alt
-              />
-            </li>
-          </ul>
-          <div style="flex:2;">
-            <p class="strategy-content-middle-title">塞班贵?一定是你的打开方式不对!6000块玩转塞班</p>
-            <p
-              class="strategy-content-middle-text"
-            >大家对塞班岛总存在着这样的误解，知道它是美属地盘，就理所当然地觉得这里的花费一定很高，花费高有高的玩法，那如果只有6000块的预算呢？要怎么玩？关于旅行这件事，我们要让钱花得更有道理，收下这份攻略，带你6000块花式玩转塞班。图：塞班岛。 by第5季旅游一、怎样用6000块玩转塞班？大多数出境游客人不做预算或最</p>
+        <li
+          class="strategy-content-middle-border"
+          v-for="(v,i) in getlist "
+          :key="i"
+          @click="skip(v.id)"
+        >
+          <div v-if="v.images.length!==1">
+            <p class="strategy-content-middle-title">{{v.title}}</p>
+            <p class="strategy-content-middle-text">{{v.summary}}</p>
+            <div class="strategy-content-middle-img">
+              <div>
+                <img :src="v.images[0]" alt />
+              </div>
+              <div>
+                <img :src="v.images[1]" alt />
+              </div>
+              <div v-if="v.images[2]">
+                <img :src="v.images[2]" alt />
+              </div>
+            </div>
             <div class="strategy-content-footer">
               <p>
                 <i class="el-icon-location-outline" />
-                <i>北京市</i>
-                <img src="https://images.mafengwo.net/images/i/face/brands_v3/6@2x.png" alt />
-                <span>地球发动机</span>
-                <i class="el-icon-view" />3042
+                <i>{{v.cityName}}</i>
+                <img :src="`http://127.0.0.1:1337${v.account.defaultAvatar}`" alt />
+                <span>{{v.account.nickname}}</span>
+                <i class="el-icon-view" />
+                {{v.watch}}
               </p>
-              <span class="right">30赞</span>
+              <span class="right">{{v.link?v.link:0}}赞</span>
+            </div>
+          </div>
+          <div style="display:flex;" v-if="v.images.length===1">
+            <div class="strategy-content-middle-img" style="flex:1;">
+              <div style="width:220px">
+                <img :src="v.images[0]" alt />
+              </div>
+            </div>
+            <div style="flex:2;">
+              <p class="strategy-content-middle-title">{{v.title}}</p>
+              <p class="strategy-content-middle-text">{{v.summary}}</p>
+              <div class="strategy-content-footer">
+                <p>
+                  <i class="el-icon-location-outline" />
+                  <i>{{v.cityName}}</i>
+                  <img :src="`http://127.0.0.1:1337${v.account.defaultAvatar}`" alt />
+                  <span>{{v.account.nickname}}</span>
+                  <i class="el-icon-view" />
+                  {{v.watch}}
+                </p>
+                <span class="right">{{v.link?v.link:0}}赞</span>
+              </div>
             </div>
           </div>
         </li>
@@ -74,11 +69,11 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage4"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="100"
+        :current-page="currentPage"
+        :page-sizes="[2, 4, 6, 8]"
+        :page-size="page"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="400"
+        :total="total"
       ></el-pagination>
     </div>
   </div>
@@ -88,16 +83,62 @@
 export default {
   data() {
     return {
-      currentPage4: 1
+      // 分页数据
+      currentPage: 1,
+      page: 2,
+      total: 0,
+      datalist: []
+      // datalists: []
     };
   },
+  computed: {
+    // 计算属性 只要函数里面的 this指向的值发生变化就会触发函数 同时返回参数
+    getlist() {
+      // 备份两份数据  一份用来永远不会改变  一份用来操作
+      // this.datalists = this.$store.state.post.articleList;
+      // // 从新改变vuex 仓库中的数据
+      // this.$store.commit("post/alterArticle", this.datalists);
+      this.datalist = this.$store.state.post.articleList;
+      this.total = this.datalist.length; //修改数据的数量
+      let a = this.page;
+      let b = this.currentPage;
+      // 利用数组方法slice 截取其中一段  第一个是从何开始  第二个是到哪里结束
+      this.datalist = this.datalist.slice((b - 1) * a, (b - 1) * a + a);
+
+      return this.datalist;
+    }
+  },
   methods: {
+    // 分页封装函数
+    paging() {
+      let a = this.page;
+      let b = this.currentPage;
+      let data = this.$store.state.post.articleList;
+      // console.log(data);
+      // 利用数组方法slice 截取其中一段  第一个是从何开始  第二个是到哪里结束
+      let list = data.slice((b - 1) * a, (b - 1) * a + a);
+      // 从新改变vuex 仓库中的数据
+      this.datalist = list;
+    },
+    // 分页函数
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      // console.log(`每页 ${val} 条`);
+      this.page = val;
+      this.paging();
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      // // console.log(`当前页: ${val}`);
+      this.currentPage = val;
+      this.paging();
+    },
+    // 跳转文章攻略详情页面
+    skip(id) {
+      this.$router.push({ path: "/post/detail", query: { id } });
     }
+  },
+  mounted() {
+    // 请求文章列表数据
+    this.$store.dispatch("post/getArticle");
   }
 };
 </script>
@@ -118,24 +159,33 @@ export default {
 }
 
 .strategy-content-middle {
+  cursor: pointer;
   .strategy-content-middle-border {
     border-bottom: 1px solid #ddd;
   }
   .strategy-content-middle-title {
     padding: 20px 0;
     font-size: 18px;
+    &:hover {
+      color: orange;
+    }
   }
   .strategy-content-middle-text {
+    overflow: hidden;
+    white-space: wrap;
+    text-overflow: ellipsis;
     font-size: 14px;
     color: #666;
+    height: 63px;
     line-height: 22px;
   }
   .strategy-content-middle-img {
     display: flex;
     margin-top: 18px;
-    li {
-      flex: 1;
+    > div {
+      width: 33%;
       margin-right: 14px;
+      border: none;
       img {
         width: 100%;
         height: 150px;

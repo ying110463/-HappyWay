@@ -1,21 +1,20 @@
 <template>
   <div class="Search">
     <div class="Search-top">
-      <el-input placeholder="请输入想去的地方,例如:广州" v-model="input">
-        <el-button slot="append" icon="el-icon-search" style="color:orange;border-radius:0"></el-button>
+      <el-input placeholder="请输入想去的地方,例如:广州" v-model="city">
+        <el-button
+          slot="append"
+          icon="el-icon-search"
+          style="color:orange;border-radius:0"
+          @click="searchArticle"
+        ></el-button>
       </el-input>
     </div>
     <div>
       <ul class="Search-bottom">
         <li>推荐:</li>
-        <li>
-          <nuxt-link to>广州</nuxt-link>
-        </li>
-        <li>
-          <nuxt-link to>上海</nuxt-link>
-        </li>
-        <li>
-          <nuxt-link to>北京</nuxt-link>
+        <li v-for="(v,i) in ['广州','上海','北京']" :key="i" @click="getArticle(v)">
+          <nuxt-link to>{{v}}</nuxt-link>
         </li>
       </ul>
     </div>
@@ -26,9 +25,24 @@
 export default {
   data() {
     return {
-      input: ""
+      city: ""
     };
-  }
+  },
+  methods: {
+    // 点击请求渲染文章列表
+    getArticle(city) {
+      this.$store.dispatch("post/getArticle", city);
+    },
+    // 搜索请求渲染文章列表
+    searchArticle() {
+      if (!this.city) {
+        this.$message.error("请输入城市名");
+        return;
+      }
+      this.$store.dispatch("post/getArticle", this.city);
+    }
+  },
+  mounted() {}
 };
 </script>
 
