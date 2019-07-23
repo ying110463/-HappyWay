@@ -40,20 +40,23 @@
       <el-button type="primary" @click="release">发布</el-button>或者
       <span @click="baocun" class="release">保存到草稿箱</span>
     </div>
-    <div class="draft">
-      <div class="cao">草稿箱()</div>
-      <div v-for="(value,index) in list" :key="index">
-        <span class="yiru" @click="cha(value.city,value.title,value.content)">
-          {{value.title}}
-          <i class="el-icon-edit"></i>
-        </span>
-        <span @click="deletes(index)">
-          <i class="el-icon-delete"></i>
-        </span>
-        <p>{{value.data|sjian}}</p>
+              <div class="draft">
+        <!-- <div class="cao">草稿箱({{list.length}})</div> -->
+        <div class="cao">草稿箱</div>
+        <div v-for="(value,index) in list" :key="index">
+          <span class="yiru" @click="cha(value.city,value.title,value.content)">
+            {{value.title}}
+            <i class="el-icon-edit"></i>
+          </span>
+          <span @click="deletes(index)">
+            <i class="el-icon-delete"></i>
+
+          </span>
+          <p>{{value.data|sjian}}</p>
+        </div>
       </div>
     </div>
-  </div>
+ 
 </template>
 
 <script>
@@ -114,15 +117,11 @@ export default {
     },
     // 添加草稿
     baocun() {
-      this.list.push({
-        title: this.form.title,
-        data: new Date(),
-        city: this.id,
-        content: this.content
-      });
-      console.log(this.list);
+    this.list.push({title:this.form.title,data:new Date(),city:this.id,content:this.content})    
+    
+   localStorage.setItem("shuj",JSON.stringify(this.list))
+    console.log(this.list);
 
-      localStorage.setItem("shuj", JSON.stringify(this.list));
     },
     // 富文本
     onEditorBlur(editor) {},

@@ -1,6 +1,8 @@
 export const state = () => ({
     // 文章初始数据
     articleList: [],
+
+    // 攻略详情数据
     detailData: {}
 })
 
@@ -9,6 +11,8 @@ export const mutations = {
     alterArticle(state, data) {
         state.articleList = data
     },
+
+    // 设置攻略详情数据
     setDetailData(state, data) {
         state.detailData = data
     }
