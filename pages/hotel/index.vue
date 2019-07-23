@@ -1,9 +1,8 @@
 <template>
-  <div style="padding:50px;">
-  
-    <div id="container" style="width:500px; height:500px;"></div>
-    <button @click="hamgasd"> hko </button>
-    
+  <div @click="hamgasd">
+    <img src="../../static/images/Snipaste_2019-07-23_14-57-33.png" alt />
+    <img  src="../../static/images/Snipaste_2019-07-23_14-57-52.png" alt />
+    <img src="../../static/images/Snipaste_2019-07-23_14-58-28.png" alt />
   </div>
 </template>
 

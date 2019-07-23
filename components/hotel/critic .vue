@@ -71,16 +71,7 @@ export default {
       this.datashow = index;
     },
     handbtn() {
-      // this.$axios({
-      //   url: "/comments",
-      //   mehtod: "POST",
-      //   data: {
-      //     ContentType:this.$refs
-      //   },
-      //   headers: {
-      //     Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
-      //   }
-      // });
+      
     }
   },
   mounted() {}
