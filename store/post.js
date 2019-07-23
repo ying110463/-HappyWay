@@ -32,6 +32,5 @@ export const actions = {
             // 调用自身的修改 state 仓库数据的方法
             store.commit('alterArticle', res.data.data)
         })
-        });
     }
 }
