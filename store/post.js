@@ -1,6 +1,8 @@
 export const state = () => ({
     // 文章初始数据
     articleList: [],
+
+    // 攻略详情数据
     detailData: {}
 })
 
@@ -9,6 +11,8 @@ export const mutations = {
     alterArticle(state, data) {
         state.articleList = data
     },
+
+    // 设置攻略详情数据
     setDetailData(state, data) {
         state.detailData = data
     }
@@ -28,5 +32,6 @@ export const actions = {
             // 调用自身的修改 state 仓库数据的方法
             store.commit('alterArticle', res.data.data)
         })
+        });
     }
 }

@@ -40,13 +40,4 @@ export default {
   padding-top: 20px;
 }
 
-// .el-row--flex .is-justify-space-between {
-//     justify-content: space-between;
-// }
-// .el-row--flex {
-//     display: flex;
-// }
-// .el-row {
-//     box-sizing: border-box;
-// }
 </style>
